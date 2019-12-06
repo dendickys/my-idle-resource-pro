@@ -21,18 +21,38 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 delay1();
+                delay2();
             }
         });
     }
 
     private void delay1() {
+        EspressoIdlingResource.increment();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 textView.setText(getString(R.string.delay1));
+
+                if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                    EspressoIdlingResource.decrement();
+                }
+
             }
         }, 2000);
+    }
+
+    private void delay2() {
+        EspressoIdlingResource.increment();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText(getString(R.string.delay2));
+
+                if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                    EspressoIdlingResource.decrement();
+                }
+            }
+        }, 3000);
     }
 }
